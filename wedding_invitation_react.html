@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아담 & 하와 결혼식 청첩장</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            animation: fadeIn 2s ease-out;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #f093fb, #f5576c);
+            border-radius: 30px;
+            z-index: -1;
+            opacity: 0.7;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            animation: float 3s ease-in-out infinite;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .photo-section {
+            margin: 30px 0;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .couple-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        .names {
+            font-size: 2.2em;
+            margin: 25px 0;
+            font-weight: bold;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .heart {
+            color: #ff6b9d;
+            font-size: 2.5em;
+            margin: 0 15px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        .details {
+            margin: 30px 0;
+            animation: fadeIn 3.5s ease-out;
+        }
+
+        .detail-item {
+            margin: 15px 0;
+            font-size: 1.2em;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            display: inline-block;
+            min-width: 220px;
+            transition: transform 0.3s ease;
+        }
+
+        .detail-item:hover {
+            transform: scale(1.05);
+        }
+
+        .message {
+            margin: 40px 0;
+            font-style: italic;
+            line-height: 1.6;
+            font-size: 1.1em;
+            animation: fadeIn 4s ease-out;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 0.95em;
+            opacity: 0.9;
+            animation: fadeIn 4.5s ease-out;
+        }
+
+        .gift-section {
+            margin-top: 50px;
+            animation: fadeIn 5s ease-out;
+        }
+
+        .gift-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #ff6b9d;
+        }
+
+        .gift-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .gift-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .gift-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .gift-account {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .video-section {
+            margin-top: 50px;
+            animation: fadeIn 5.5s ease-out;
+        }
+
+        .video-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #ff6b9d;
+        }
+
+        .video-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .comments-section {
+            margin-top: 50px;
+            animation: fadeIn 6s ease-out;
+        }
+
+        .comments-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #ff6b9d;
+        }
+
+        .comment-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 1em;
+        }
+
+        .comment-submit {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+
+        .comment-submit:hover {
+            background: #e55a8b;
+        }
+
+        .comments-list {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .comment-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .sparkle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 60%; left: 80%; animation-delay: 1s; }
+        .sparkle:nth-child(3) { top: 40%; left: 60%; animation-delay: 2s; }
+        .sparkle:nth-child(4) { top: 80%; left: 30%; animation-delay: 0.5s; }
+        .sparkle:nth-child(5) { top: 10%; left: 70%; animation-delay: 1.5s; }
+
+        @media (max-width: 480px) {
+            .app {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .names {
+                font-size: 1.8em;
+            }
+            .couple-photo {
+                width: 150px;
+                height: 150px;
+            }
+            .detail-item {
+                font-size: 1em;
+                min-width: 180px;
+                padding: 12px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 550px;
+                padding: 50px 40px;
+            }
+            h1 {
+                font-size: 3.2em;
+            }
+            .names {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function WeddingInvitation() {
+            const [isLoaded, setIsLoaded] = useState(false);
+            const [comments, setComments] = useState([]);
+            const [newComment, setNewComment] = useState({ name: '', message: '' });
+            const [isSubmitting, setIsSubmitting] = useState(false);
+
+            useEffect(() => {
+                setIsLoaded(true);
+                loadComments();
+            }, []);
+
+            const loadComments = async () => {
+                try {
+                    const response = await fetch('http://localhost:5000/api/comments');
+                    if (response.ok) {
+                        const data = await response.json();
+                        setComments(data);
+                    }
+                } catch (error) {
+                    console.error('댓글 로드 실패:', error);
+                    // 로컬 스토리지에서 백업 로드
+                    const savedComments = localStorage.getItem('weddingComments');
+                    if (savedComments) {
+                        setComments(JSON.parse(savedComments));
+                    }
+                }
+            };
+
+            const copyToClipboard = (account) => {
+                navigator.clipboard.writeText(account).then(() => {
+                    alert('계좌번호가 복사되었습니다!');
+                }).catch(err => {
+                    console.error('복사 실패:', err);
+                });
+            };
+
+            const handleCommentSubmit = async (e) => {
+                e.preventDefault();
+                if (newComment.name && newComment.message && !isSubmitting) {
+                    setIsSubmitting(true);
+                    try {
+                        const response = await fetch('http://localhost:5000/api/comments', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                name: newComment.name,
+                                message: newComment.message
+                            })
+                        });
+
+                        if (response.ok) {
+                            const comment = await response.json();
+                            setComments(prev => [...prev, comment]);
+                            setNewComment({ name: '', message: '' });
+                        } else {
+                            const error = await response.json();
+                            alert(error.error || '댓글 등록 실패');
+                        }
+                    } catch (error) {
+                        console.error('댓글 등록 실패:', error);
+                        alert('서버 연결 실패. 잠시 후 다시 시도해주세요.');
+                    } finally {
+                        setIsSubmitting(false);
+                    }
+                }
+            };
+
+            const giftAccounts = [
+                { name: '신랑 아담', account: '국민은행 123-456-789012' },
+                { name: '신부 하와', account: '신한은행 987-654-321098' },
+                { name: '신랑 아버지', account: '우리은행 111-222-333444' },
+                { name: '신랑 어머니', account: '하나은행 555-666-777888' },
+                { name: '신부 아버지', account: '농협 999-000-111222' },
+                { name: '신부 어머니', account: '기업은행 333-444-555666' }
+            ];
+
+            return (
+                <div className="app">
+                    <div className="sparkles">
+                        <div className="sparkle"></div>
+                        <div className="sparkle"></div>
+                        <div className="sparkle"></div>
+                        <div className="sparkle"></div>
+                        <div className="sparkle"></div>
+                    </div>
+                    <div className="container">
+                        <h1>결혼식 청첩장</h1>
+                        <div className="photo-section">
+                            <img
+                                src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=400&fit=crop&crop=face"
+                                alt="아담과 하와"
+                                className="couple-photo"
+                            />
+                        </div>
+                        <div className="names">
+                            아담 <span className="heart">♥</span> 하와
+                        </div>
+                        <div className="details">
+                            <div className="detail-item">2026년 5월 1일</div>
+                            <div className="detail-item">오후 3시</div>
+                            <div className="detail-item">천국 정원</div>
+                        </div>
+                        <div className="message">
+                            서로를 아끼고 사랑하며<br />
+                            새로운 시작을 함께 하려 합니다.<br />
+                            따뜻한 마음으로 축하해 주시면<br />
+                            더없이 기쁘겠습니다.
+                        </div>
+                        <div className="footer">
+                            연락처: 010-1234-5678<br />
+                            #아담하와결혼 #천국결혼식
+                        </div>
+
+                        <div className="gift-section">
+                            <div className="gift-title">마음 전할 곳</div>
+                            {giftAccounts.map((gift, index) => (
+                                <div key={index} className="gift-item" onClick={() => copyToClipboard(gift.account)}>
+                                    <div className="gift-name">{gift.name}</div>
+                                    <div className="gift-account">{gift.account}</div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="video-section">
+                            <div className="video-title">결혼식 하이라이트</div>
+                            <div className="video-container">
+                                <video controls>
+                                    <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4" />
+                                    브라우저가 동영상을 지원하지 않습니다.
+                                </video>
+                            </div>
+                        </div>
+
+                        <div className="comments-section">
+                            <div className="comments-title">축하 메시지</div>
+                            <form className="comment-form" onSubmit={handleCommentSubmit}>
+                                <input
+                                    type="text"
+                                    placeholder="이름"
+                                    className="comment-input"
+                                    value={newComment.name}
+                                    onChange={(e) => setNewComment({...newComment, name: e.target.value})}
+                                    required
+                                />
+                                <textarea
+                                    placeholder="축하 메시지를 남겨주세요"
+                                    className="comment-input"
+                                    rows="3"
+                                    value={newComment.message}
+                                    onChange={(e) => setNewComment({...newComment, message: e.target.value})}
+                                    required
+                                ></textarea>
+                                <button type="submit" className="comment-submit" disabled={isSubmitting}>
+                                    {isSubmitting ? '등록 중...' : '메시지 남기기'}
+                                </button>
+                            </form>
+                            <div className="comments-list">
+                                {comments.map(comment => (
+                                    <div key={comment.id} className="comment-item">
+                                        <div className="comment-author">{comment.name}</div>
+                                        <div className="comment-text">{comment.message}</div>
+                                        <small>{comment.date}</small>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<WeddingInvitation />, document.getElementById('root'));
+    </script>
+</body>
+</html>
